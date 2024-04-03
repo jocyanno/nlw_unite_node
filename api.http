@@ -1,0 +1,26 @@
+POST http://localhost:3333/events
+Content-Type: application/json
+
+{
+  "title": "Unite Summit",
+  "details": "Um evento para quem é apaixonado por programação!",
+  "maximumAttendees": 100
+}
+
+###
+
+POST http://localhost:3333/events/ec4772c6-1d23-41ad-a6e7-6807482a8649/attendees
+Content-Type: application/json
+
+{
+  "name": "Jocyanno Vittor da Silva Cipriano",
+  "email": "jocyannovittor@hotmail.com"
+}
+
+###
+
+GET http://localhost:3333/events/ec4772c6-1d23-41ad-a6e7-6807482a8649
+
+###
+
+GET http://localhost:3333/attendees/4/badge
