@@ -30,3 +30,17 @@ O sistema fará um scan da credencial do participante para permitir a entrada no
 ### Requisitos não-funcionais
 
 - [ ]  O check-in no evento será realizado através de um QRCode;# nlw_unite_node
+
+# Comandos para Production
+
+### instalação de dependencias: 
+npm i
+
+### necessário rodar as migrations:
+npx prisma migrate dev
+
+### para ter acesso ao banco de dados com prisma
+npm run db:studio
+
+### agora para ir ao ar:
+npm run start

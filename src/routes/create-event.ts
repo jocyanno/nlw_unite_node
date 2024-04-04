@@ -26,7 +26,7 @@ export async function createEvent(app: FastifyInstance) {
           })
         }
       }
-    },
+    }, 
     async (request, reply) => {
       const { title, details, maximumAttendees } = request.body;
       const slug = generateSlug(title);
