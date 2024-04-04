@@ -1,11 +1,14 @@
-import { FastifyInstance } from "fastify";
-import { ZodTypeProvider } from "fastify-type-provider-zod";
-import { z } from "zod";
-import { prisma } from "../lib/prisma";
-import { BadRequest } from "./_errors/bad-request";
+import {
+  BadRequest
+} from "./chunk-JRO4E4TH.mjs";
+import {
+  prisma
+} from "./chunk-5KVQPZKD.mjs";
 
-export async function registerForEvent(app: FastifyInstance) {
-  app.withTypeProvider<ZodTypeProvider>().post(
+// src/routes/register-for-event.ts
+import { z } from "zod";
+async function registerForEvent(app) {
+  app.withTypeProvider().post(
     "/events/:eventId/attendees",
     {
       schema: {
@@ -28,7 +31,6 @@ export async function registerForEvent(app: FastifyInstance) {
     async (request, reply) => {
       const { eventId } = request.params;
       const { name, email } = request.body;
-
       const attendeeFromEmail = await prisma.attendee.findUnique({
         where: {
           eventId_email: {
@@ -37,32 +39,24 @@ export async function registerForEvent(app: FastifyInstance) {
           }
         }
       });
-
       if (attendeeFromEmail !== null) {
         throw new BadRequest("An attendee with the same email already exists");
       }
-
       const [event, amountOfAttendeesForEvent] = await Promise.all([
         await prisma.event.findUnique({
           where: {
             id: eventId
           }
         }),
-
         await prisma.attendee.count({
           where: {
             eventId
           }
         })
       ]);
-
-      if (
-        event?.maximumAttendees &&
-        amountOfAttendeesForEvent >= event?.maximumAttendees
-      ) {
+      if (event?.maximumAttendees && amountOfAttendeesForEvent >= event?.maximumAttendees) {
         throw new BadRequest("Event is full");
       }
-
       const attendee = await prisma.attendee.create({
         data: {
           name,
@@ -70,8 +64,11 @@ export async function registerForEvent(app: FastifyInstance) {
           eventId
         }
       });
-
       return reply.status(201).send({ attendeeId: attendee.id });
     }
   );
 }
+
+export {
+  registerForEvent
+};
